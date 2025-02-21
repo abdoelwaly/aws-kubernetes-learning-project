@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuprjapp
+  labels: 
+    app: kuprjapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kuprjapp
+  template:
+    metadata:
+      labels:
+        app: kuprjapp
+    spec:
+      containers:
+      - name: kuprjapp
+        image: vprocontainers/vprofileapp
+        imagePullPolicy: Always
+        ports:
+        - name: kuprjapp-port
+          containerPort: 8080
+      initContainers:
+      - name: init-mydb
+        image: busybox
+        command: ['sh', '-c', 'until nslookup kuprjdb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']
+      - name: init-memcache
+        image: busybox
+        command: ['sh', '-c', 'until nslookup kuprjcache01.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done;']

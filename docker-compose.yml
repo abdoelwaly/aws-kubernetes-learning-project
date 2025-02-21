@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  kuprjdb:
+    build: 
+      context: ./Docker-files/db
+    image: vprocontainers/vprofiledb
+    container_name: kuprjdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - kuprjdbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=kuprjdbpass
+
+  kuprjcache01:
+    image: memcached
+    ports:
+      - "11211:11211"
+
+  kuprjmq01:
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  kuprjapp:
+    build: 
+      context: ./Docker-files/app
+    image: vprocontainers/vprofileapp
+    container_name: kuprjapp
+    ports:
+      - "8080:8080"
+    volumes:
+      - kuprjappdata:/usr/local/tomcat/webapps
+    
+  kuprjweb:
+    build: 
+      context: ./Docker-files/web
+    image: vprocontainers/vprofileweb
+    container_name: kuprjweb
+    ports:
+      - "80:80"
+
+volumes:
+   kuprjdbdata: {}
+   kuprjappdata: {}
+  

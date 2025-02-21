@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuprjmq01
+  labels:
+    app: kuprjmq01
+spec:
+  selector:
+    matchLabels:
+      app: kuprjmq01
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kuprjmq01
+    spec:
+      containers:
+      - name: kuprjmq01
+        image: rabbitmq
+        ports:
+        - name: kuprjmq01-port
+          containerPort: 5672
+        env: 
+         - name: RABBITMQ_DEFAULT_PASS
+           valueFrom:
+             secretKeyRef:
+               name: app-secret
+               key: rmq-pass
+         - name: RABBITMQ_DEFAULT_USER
+           value: "guest"

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuprjmq01
+spec:
+  ports:
+  - port: 5672
+    targetPort: kuprjmq01-port
+    protocol: TCP
+  selector:
+    app: kuprjmq01
+  type: ClusterIP

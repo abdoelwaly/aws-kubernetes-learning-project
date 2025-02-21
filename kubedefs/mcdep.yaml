@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuprjmc
+  labels:
+    app: kuprjmc
+spec:
+  selector:
+    matchLabels:
+      app: kuprjmc
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kuprjmc
+    spec:
+      containers:
+      - name: kuprjmc
+        image: memcached
+        ports:
+        - name: kuprjmc-port
+          containerPort: 11211

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuprjdb
+  labels:
+    app: kuprjdb
+spec:
+  selector:
+    matchLabels:
+      app: kuprjdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kuprjdb
+    spec:
+      containers:
+      - name: kuprjdb
+        image: vprocontainers/vprofiledb
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: kuprj-db-data
+        ports:
+        - name: kuprjdb-port
+          containerPort: 3306
+        env:
+         - name: MYSQL_ROOT_PASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: app-secret
+               key: db-pass
+      volumes:
+        - name: kuprj-db-data
+          persistentVolumeClaim:
+            claimName: db-pv-claim 
+
+      initContainers:
+        - name: busybox
+          image: busybox:latest
+          args: ["rm", "-rf", "/var/lib/mysql/lost+found"]
+          volumeMounts:
+            - name: kuprj-db-data
+              mountPath: /var/lib/mysql
