@@ -17,7 +17,7 @@ This project deploys a Kubernetes-based application with a well-structured archi
   - ☁️ **Amazon EBS**: Cloud storage backend.
 - 🔑 **Secrets Management**: Secure credentials storage.
 
-![Architecture Diagram](./project-architecture.jpg)
+![Architecture Diagram]([./project-architecture.jpg](https://github.com/abdoelwaly/aws-kubernetes-learning-project/blob/2af142e7da127e15c9a6fa13c71335f3c4b78e88/architecture/project-architecture.jpg))
 
 ## 📖 Deployment Instructions
 Follow these steps to deploy the project on AWS Kubernetes:
